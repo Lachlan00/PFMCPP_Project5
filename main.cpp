@@ -333,6 +333,7 @@ struct Car
     ~Car();
 
     void inflateWheels();
+    void deflateWheels();
 
 };
 
@@ -350,15 +351,7 @@ Car::Car()
 Car::~Car()
 {
     std::cout << std::endl << "Car being deconstructed.." << std::endl;
-    std::cout << "Releasing air form wheels" << std::endl;
-    std::cout << "Left front:" << std::endl;
-    wheelLeftFront.releaseAir(wheelLeftFront.currentPressure);
-    std::cout << "Right front:" << std::endl;
-    wheelRightFront.releaseAir(wheelRightFront.currentPressure);
-    std::cout << "Left back:" << std::endl;
-    wheelLeftBack.releaseAir(wheelLeftBack.currentPressure);
-    std::cout << "Right back:" << std::endl;
-    wheelRightBack.releaseAir(wheelRightBack.currentPressure);
+    deflateWheels();
 }
 
 void Car::inflateWheels()
@@ -371,6 +364,19 @@ void Car::inflateWheels()
     wheelLeftBack.maximisePressure(5);
     std::cout << "Right back:" << std::endl;
     wheelRightBack.maximisePressure(5);
+}
+
+void Car::deflateWheels()
+{
+    std::cout << "Releasing air form wheels" << std::endl;
+    std::cout << "Left front:" << std::endl;
+    wheelLeftFront.releaseAir(wheelLeftFront.currentPressure);
+    std::cout << "Right front:" << std::endl;
+    wheelRightFront.releaseAir(wheelRightFront.currentPressure);
+    std::cout << "Left back:" << std::endl;
+    wheelLeftBack.releaseAir(wheelLeftBack.currentPressure);
+    std::cout << "Right back:" << std::endl;
+    wheelRightBack.releaseAir(wheelRightBack.currentPressure);
 }
 
 /*
@@ -418,10 +424,14 @@ int main()
     std::cout << std::endl;
 
     PrinterRobot printerRobot;
+    printerRobot.lightBeamBlast(4000);
+    printerRobot.selfDistruct(5);
 
     std::cout << std::endl;
 
     Car car;
+    car.deflateWheels();
+    car.inflateWheels();
 
     std::cout << std::endl;
     std::cout << "good to go!" << std::endl;
