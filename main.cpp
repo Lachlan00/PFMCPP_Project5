@@ -17,7 +17,7 @@ Create a branch named Part3
  5) update main() 
       replace your objects with your wrapper classes, which have your UDTs as pointer member variables.
       
-    This means if you had something like the following in your main() previously: 
+    This means if you had something like the following in your main() previously:
 */
 #if false
  Axe axe;
@@ -49,6 +49,7 @@ You don't have to do this, you can keep your current object name and just change
 
 
 #include <iostream>
+#include "LeakedObjectDetector.h"
 #include <math.h> //for rounding
 /*
  copied UDT 1:
@@ -71,6 +72,8 @@ struct Printer
         void cancelJob(std::string jobID);
         std::string checkJobStatus(std::string jobID);
         void addToQueue(std::string printerID, std::string proity = "low");
+        
+        JUCE_LEAK_DETECTOR(PrintJob)
     };
 
     void printDocument();
@@ -82,6 +85,8 @@ struct Printer
     void printCopies2(int noCopies);
 
     PrintJob printJob;
+    
+    JUCE_LEAK_DETECTOR(Printer)
 };
 
 Printer::Printer() :
@@ -96,6 +101,13 @@ Printer::~Printer()
 {
     std::cout << "Printer is gone!" << std::endl;
 }
+
+struct PrinterWrapper
+{
+    PrinterWrapper(Printer* pointerToPrinter) : printer(pointerToPrinter) { }
+    ~PrinterWrapper() { delete printer; }
+    Printer* printer = nullptr;
+};
 
 Printer::PrintJob::PrintJob() :
 numCopies(2),
@@ -196,6 +208,8 @@ struct Wheel
     void turnWheel2(float angle);
     void maximisePressure(float pressureIncrement = 2);
     void maximisePressure2(float pressureIncrement = 2);
+    
+    JUCE_LEAK_DETECTOR(Wheel)
 };
 
 Wheel::Wheel() :
@@ -210,6 +224,13 @@ Wheel::~Wheel()
 {
     std::cout << "Wheel has reached the end of it's life.." << std::endl;
 }
+
+struct WheelWrapper
+{
+    WheelWrapper(Wheel* pointerToWheel) : wheel(pointerToWheel){}
+    ~WheelWrapper(){ delete wheel; }
+    Wheel* wheel = nullptr;
+};
 
 void Wheel::roateWheel(float amount, bool forward)
 {
@@ -296,6 +317,8 @@ struct Headlight
     void adjustBeamAngle(float newAngle);
     void lightBeamWeapon(float beamPower);
     void lightBeamWeapon2(float beamPower);
+
+    JUCE_LEAK_DETECTOR(Headlight)
 };
 
 Headlight::Headlight() :
@@ -311,6 +334,13 @@ Headlight::~Headlight()
 {
     std::cout << "Headlight is be deconstructed.." << std::endl;
 }
+
+struct HeadlightWrapper
+{
+    HeadlightWrapper(Headlight* pointerToHeadlight) : headlight(pointerToHeadlight) { }
+    ~HeadlightWrapper(){ delete headlight; }
+    Headlight* headlight = nullptr;
+};
 
 float Headlight::illuminate(float illuminationAmount, bool highBeams)
 {
@@ -399,6 +429,8 @@ struct PrinterRobot
     void selfDistruct(int countdown = 10);
     void lightBeamBlast(int power);
     void lightBeamBlast2(int power);
+
+    JUCE_LEAK_DETECTOR(PrinterRobot)
 };
 
 PrinterRobot::PrinterRobot()
@@ -417,6 +449,13 @@ PrinterRobot::~PrinterRobot()
 {
     selfDistruct(10);
 }
+
+struct PrinterRobotWrapper
+{
+    PrinterRobotWrapper(PrinterRobot* pointerToRobot) : printerRobot(pointerToRobot) { }
+    ~PrinterRobotWrapper(){ delete printerRobot; }
+    PrinterRobot* printerRobot = nullptr;
+};
 
 void PrinterRobot::selfDistruct(int countdown)
 {
@@ -454,6 +493,7 @@ struct Car
     void deflateWheels();
     void deflateWheels2();
 
+    JUCE_LEAK_DETECTOR(Car)
 };
 
 Car::Car()
@@ -472,6 +512,13 @@ Car::~Car()
     std::cout << std::endl << "Car being deconstructed.." << std::endl;
     deflateWheels();
 }
+
+struct CarWrapper
+{
+    CarWrapper(Car* pointerToCar) : car(pointerToCar){ }
+    ~CarWrapper(){ delete car; }
+    Car* car = nullptr;
+};
 
 void Car::inflateWheels()
 {
@@ -543,52 +590,52 @@ int main()
     //Example::main();
     std::cout << std::endl;
 
-    Printer printer;
-    printer.printDocument();
-    printer.printDocument2();
-    printer.scanDocument(72);
-    printer.scanDocument2(72);
-    printer.printCopies(3);
-    printer.printCopies2(3);
-    printer.paperLevel = 2;
-    printer.printCopies(7);
-    printer.paperLevel = 2;
-    printer.printCopies2(7);
+    PrinterWrapper printer( new Printer() );
+    printer.printer->printDocument();
+    printer.printer->printDocument2();
+    printer.printer->scanDocument(72);
+    printer.printer->scanDocument2(72);
+    printer.printer->printCopies(3);
+    printer.printer->printCopies2(3);
+    printer.printer->paperLevel = 2;
+    printer.printer->printCopies(7);
+    printer.printer->paperLevel = 2;
+    printer.printer->printCopies2(7);
 
     std::cout << std::endl;
 
-    Wheel frontRightWheel;
-    Wheel backLeftWheel;
-    frontRightWheel.roateWheel(360.f);
-    std::cout << "Wheel pressure: " << frontRightWheel.currentPressure << std::endl;
-    frontRightWheel.releaseAir(5.f);
-    frontRightWheel.releaseAir2(5.f);
-    std::cout << "Wheel pressure: " << frontRightWheel.currentPressure << std::endl;
-    std::cout << "Wheel pressure: " << backLeftWheel.currentPressure << std::endl;
-    backLeftWheel.releaseAir(7.2f);
-    backLeftWheel.releaseAir2(7.2f);
-    std::cout << "Wheel pressure: " << backLeftWheel.currentPressure << std::endl;
-    backLeftWheel.turnWheel(20.f);
-    backLeftWheel.turnWheel2(20.f);
-    backLeftWheel.maximisePressure();
-    backLeftWheel.maximisePressure2();
-    frontRightWheel.maximisePressure();
-    frontRightWheel.maximisePressure2();
+    WheelWrapper frontRightWheel( new Wheel() );
+    WheelWrapper backLeftWheel( new Wheel() );
+    frontRightWheel.wheel->roateWheel(360.f);
+    std::cout << "Wheel pressure: " << frontRightWheel.wheel->currentPressure << std::endl;
+    frontRightWheel.wheel->releaseAir(5.f);
+    frontRightWheel.wheel->releaseAir2(5.f);
+    std::cout << "Wheel pressure: " << frontRightWheel.wheel->currentPressure << std::endl;
+    std::cout << "Wheel pressure: " << backLeftWheel.wheel->currentPressure << std::endl;
+    backLeftWheel.wheel->releaseAir(7.2f);
+    backLeftWheel.wheel->releaseAir2(7.2f);
+    std::cout << "Wheel pressure: " << backLeftWheel.wheel->currentPressure << std::endl;
+    backLeftWheel.wheel->turnWheel(20.f);
+    backLeftWheel.wheel->turnWheel2(20.f);
+    backLeftWheel.wheel->maximisePressure();
+    backLeftWheel.wheel->maximisePressure2();
+    frontRightWheel.wheel->maximisePressure();
+    frontRightWheel.wheel->maximisePressure2();
 
     std::cout << std::endl;
 
-    PrinterRobot printerRobot;
-    printerRobot.lightBeamBlast(4000);
-    printerRobot.lightBeamBlast2(4000);
-    printerRobot.selfDistruct(5);
+    PrinterRobotWrapper printerRobot( new PrinterRobot() );
+    printerRobot.printerRobot->lightBeamBlast(4000);
+    printerRobot.printerRobot->lightBeamBlast2(4000);
+    printerRobot.printerRobot->selfDistruct(5);
 
     std::cout << std::endl;
 
-    Car car;
-    car.deflateWheels();
-    car.deflateWheels2();
-    car.inflateWheels();
-    car.inflateWheels2();
+    CarWrapper car(new Car());
+    car.car->deflateWheels();
+    car.car->deflateWheels2();
+    car.car->inflateWheels();
+    car.car->inflateWheels2();
 
     std::cout << std::endl;
     std::cout << "good to go!" << std::endl;
