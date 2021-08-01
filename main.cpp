@@ -45,11 +45,11 @@
  */
 
 #include <iostream>
-#include "Printer.cpp"
-#include "Wheel.cpp"
-#include "Headlight.cpp"
-#include "PrinterRobot.cpp"
-#include "Car.cpp"
+// #include "Printer.h"
+// #include "Wheel.h"
+// #include "Headlight.h"
+// #include "PrinterRobot.h"
+// #include "Car.h"
 #include "Wrappers.h"
 
 int main()

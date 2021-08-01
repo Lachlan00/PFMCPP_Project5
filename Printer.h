@@ -1,5 +1,5 @@
 #include "LeakedObjectDetector.h"
-#include "PrintJob.cpp"
+#include "PrintJob.h"
 
 struct Printer
 {

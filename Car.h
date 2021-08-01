@@ -1,4 +1,6 @@
 #include "LeakedObjectDetector.h"
+#include "Headlight.h"
+#include "Wheel.h"
 
 struct Car
 {
@@ -14,4 +16,3 @@ struct Car
 
     JUCE_LEAK_DETECTOR(Car)
 };
-

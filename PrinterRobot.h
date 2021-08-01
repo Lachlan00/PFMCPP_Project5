@@ -1,4 +1,7 @@
 #include "LeakedObjectDetector.h"
+#include "Printer.h"
+#include "Wheel.h"
+#include "Headlight.h"
 
 struct PrinterRobot
 {

@@ -1,5 +1,5 @@
-#include "Headlight.h"
 #include <math.h> //for rounding
+#include "Headlight.h"
 
 Headlight::Headlight() :
 maxBeamPower(9000),
