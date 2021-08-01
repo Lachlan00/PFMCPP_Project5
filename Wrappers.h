@@ -7,8 +7,8 @@
 
 struct PrinterWrapper
 {
-    PrinterWrapper();
-    ~Printer();
+    PrinterWrapper(Printer* pointerToPrinter);
+    ~PrinterWrapper();
     Printer* printer = nullptr;
 };
 
@@ -18,7 +18,7 @@ PrinterWrapper::~PrinterWrapper() { delete printer; }
 
 struct WheelWrapper
 {
-    WheelWrapper();
+    WheelWrapper(Wheel* pointerToWheel);
     ~WheelWrapper();
     Wheel* wheel = nullptr;
 };
@@ -29,7 +29,7 @@ WheelWrapper::~WheelWrapper(){ delete wheel; }
 
 struct HeadlightWrapper
 {
-    HeadlightWrapper();
+    HeadlightWrapper(Headlight* pointerToHeadlight);
     ~HeadlightWrapper();
     Headlight* headlight = nullptr;
 };
@@ -40,7 +40,7 @@ HeadlightWrapper::~HeadlightWrapper(){ delete headlight; }
 
 struct PrinterRobotWrapper
 {
-    PrinterRobotWrapper();
+    PrinterRobotWrapper(PrinterRobot* pointerToRobot);
     ~PrinterRobotWrapper();
     PrinterRobot* printerRobot = nullptr;
 };
@@ -51,7 +51,7 @@ PrinterRobotWrapper::~PrinterRobotWrapper(){ delete printerRobot; }
 
 struct CarWrapper
 {
-    CarWrapper();
+    CarWrapper(Car* pointerToCar);
     ~CarWrapper();
     Car* car = nullptr;
 };
