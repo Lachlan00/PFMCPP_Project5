@@ -1,4 +1,9 @@
 #include "Wrappers.h"
+#include "Printer.h"
+#include "Wheel.h"
+#include "Headlight.h"
+#include "PrinterRobot.h"
+#include "Car.h"
 
 PrinterWrapper::PrinterWrapper(Printer* pointerToPrinter) : printer(pointerToPrinter) { }
 

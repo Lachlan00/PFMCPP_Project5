@@ -1,10 +1,12 @@
 // Wrapper classes
 #pragma once
-#include "Printer.h"
-#include "Wheel.h"
-#include "Headlight.h"
-#include "PrinterRobot.h"
-#include "Car.h"
+
+// Forward declarations
+struct Printer;
+struct Wheel;
+struct Headlight;
+struct PrinterRobot;
+struct Car;
 
 struct PrinterWrapper
 {
